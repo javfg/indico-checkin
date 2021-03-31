@@ -51,7 +51,7 @@
     <allow-intent href="tel:*" />
     <access origin="*" />
     <plugin name="cordova-plugin-dialogs" spec="2.0.1" />
-    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="4.1.0" />
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
@@ -59,7 +59,7 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="To scan ticket QR codes" />
     </plugin>
     <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
-        <string>To scan QR tickets</string>
+        <string>To easily scan Indico ticket QR codes</string>
     </edit-config>
     <engine name="android" spec="^7.1.1" />
     <engine name="ios" spec="~4.5.5" />
