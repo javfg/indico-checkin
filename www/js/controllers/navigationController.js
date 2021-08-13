@@ -34,6 +34,12 @@ angular.module('Checkinapp.navigationController', []).controller('NavigationCont
     };
 
     $scope.addEvent = function () {
+      const spinnerList = new Spinner({ lines: 8, length: 4, width: 3, radius: 3, color: '#464646', speed: 0.7 }).spin();
+      const spinnerEmpty = new Spinner({ lines: 8, length: 4, width: 3, radius: 3, color: '#464646', speed: 0.7 }).spin();
+      $scope.loading = true;
+      document.getElementById('events-spinner-container').appendChild(spinnerList.el);
+      document.getElementById('events-empty-spinner-container').appendChild(spinnerEmpty.el);
+
       scanQRCode(async data => {
         const eventData = {
           eventId: data.event_id,
@@ -44,6 +50,8 @@ angular.module('Checkinapp.navigationController', []).controller('NavigationCont
 
         if (Object.values(eventData).some(i => typeof i === 'undefined')) {
           showAlert('That QR is not a valid Indico event');
+          $scope.loading = false;
+          $scope.$apply();
           return;
         }
 
@@ -56,7 +64,9 @@ angular.module('Checkinapp.navigationController', []).controller('NavigationCont
             serverData = await IndicoApi.getServerData(data.server, data.version);
           } catch (e) {
             console.error(e);
-            showAlert('There was a problem decoding that QR');
+            showAlert(`There was a problem with that QR: ${e}`);
+            $scope.loading = false;
+            $scope.$apply();
             return;
           }
 
@@ -66,6 +76,8 @@ angular.module('Checkinapp.navigationController', []).controller('NavigationCont
           } catch (e) {
             console.error(e);
             showAlert(`Authentication problem: ${e.message}`);
+            $scope.loading = false;
+            $scope.$apply();
             return;
           }
         }
@@ -73,11 +85,14 @@ angular.module('Checkinapp.navigationController', []).controller('NavigationCont
         // add the new event only if it is not already in our list
         if (Storage.getEvent(eventData.serverId, eventData.eventId)) {
           showAlert('This event is already in the list');
+          $scope.loading = false;
+          $scope.$apply();
           return;
         } else {
           Storage.addEvent(eventData);
         }
 
+        $scope.loading = false;
         $location.path('events');
         $scope.$apply();
       });

@@ -113,7 +113,14 @@ angular.module('Checkinapp.indicoApiService', []).service('IndicoApi', ['Storage
 
       default: {
         const oAuthDiscoveryUrl = `${server.base_url}/.well-known/oauth-authorization-server`;
-        const res = await fetch(oAuthDiscoveryUrl);
+
+        let res;
+        try {
+          res = await fetch(oAuthDiscoveryUrl);
+        } catch (e) {
+          throw new Error('Could not get authentication information.');
+        }
+
         const data = await res.json();
 
         return {
