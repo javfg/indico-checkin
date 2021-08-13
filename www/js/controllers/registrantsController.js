@@ -6,7 +6,7 @@ angular.module('Checkinapp.registrantsController', []).controller('RegistrantsCo
   'Storage',
   'IndicoApi',
   function ($routeParams, $scope, $location, $filter, Storage, IndicoApi) {
-    const REGISTRANTS_STEP = 20;
+    const REGISTRANTS_STEP = 50;
     const {event: eventId, server: serverId} = $routeParams;
     const {title} = Storage.getEvent(serverId, eventId);
     const server = Storage.getServer(serverId);
